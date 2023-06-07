@@ -1,0 +1,25 @@
+{
+  "name": "generar_uml",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergioGL312/generar_UML.git"
+  },
+  "keywords": [],
+  "author": "Sergio GL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergioGL312/generar_UML/issues"
+  },
+  "homepage": "https://github.com/SergioGL312/generar_UML.git#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
