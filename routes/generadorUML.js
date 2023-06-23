@@ -11,16 +11,28 @@ class Generador {
   async generarUML(req, res) {
     try {
       const githubURL = decodeURIComponent(req.query.r);
-      await this.executeCommand('cd java/ && java -jar java2plantuml.jar src/');
-      await this.executeCommand('cd java/ && java -jar plantuml-1.2023.8.jar output.puml');
+      const repoName = githubURL.match(/\/([^/]+)$/)[1];
+      console.log(repoName);
+      await this.executeCommand(`cd java/ && git clone ${githubURL}.git`);
 
-      res.download('./java/output.png', (err) => {
+      await this.executeCommand(`cd java/${repoName}/ && java -jar ../java2plantuml.jar src/`);
+      await this.executeCommand(`cd java/${repoName}/ && java -jar ../plantuml-1.2023.8.jar output.puml`);
+
+      res.download(`./java/${repoName}/output.png`, (err) => {
         if (err) {
           console.error('Hubo un error al descargar el archivo:', err);
         }
 
-        this.deleteFile('./java/output.puml', 'Archivo UML eliminado exitosamente');
-        this.deleteFile('./java/output.png', 'Archivo IMG eliminado exitosamente');
+        this.deleteFile(`./java/${repoName}/output.puml`, 'Archivo UML eliminado exitosamente');
+        this.deleteFile(`./java/${repoName}/output.png`, 'Archivo IMG eliminado exitosamente');
+
+        this.executeCommand(`rm -rf ./java/${repoName}`)
+          .then(() => {
+            console.log('Repositorio eliminado exitosamente');
+          })
+          .catch((err) => {
+            console.error('Error al eliminar el repositorio:', err);
+          });
       });
     } catch (error) {
       console.error(error);
