@@ -16,9 +16,9 @@ class Generador {
       await this.executeCommand(`cd java/ && git clone ${githubURL}.git`);
 
       await this.executeCommand(`cd java/${repoName}/ && java -jar ../java2plantuml.jar src/`);
-      await this.executeCommand(`cd java/${repoName}/ && java -jar ../plantuml-1.2023.8.jar output.puml`);
+      await this.executeCommand(`cd java/${repoName}/ && java -jar ../plantuml-1.2023.8.jar output.puml && rename output.png ${repoName}.png`);
 
-      res.download(`./java/${repoName}/output.png`, (err) => {
+      res.download(`./java/${repoName}/${repoName}.png`, (err) => {
         if (err) {
           console.error('Hubo un error al descargar el archivo:', err);
         }
